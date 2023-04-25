@@ -1,0 +1,64 @@
+//BRUTE FORCE APPROACH
+
+class SmallestInfiniteSet {
+    boolean nums[]; 
+    int i;
+    public SmallestInfiniteSet() {
+        nums = new boolean[1001];
+        Arrays.fill(nums,true);
+        i = 1;
+    }
+    
+    public int popSmallest() {
+        int result = i;
+        nums[i] = false;
+
+        for(int j=i+1; j<1001; j++){
+            if(nums[j] == true){
+                i = j;
+                break;
+            }
+        }
+        return result;
+    }
+    
+    public void addBack(int num) {
+        if(nums[num] != false) return ;
+          nums[num] = true;
+        
+        
+        if(num<i){
+            i = num;
+        }
+    }
+}
+
+
+//OPTIMISED APPROACH USING ORDERED SET
+
+class SmallestInfiniteSet {
+    SortedSet<Integer> set = new TreeSet<Integer>();
+    int currSmallest;
+    public SmallestInfiniteSet() {
+        
+        currSmallest = 1;   
+    }
+    
+    public int popSmallest() {
+        int result;
+        if(!set.isEmpty()){
+            result = set.first();
+            set.remove(set.first());
+        }
+        else{
+        result = currSmallest;
+        currSmallest += 1;
+        }
+        return result;
+    }
+    
+    public void addBack(int num) {
+        if(num >= currSmallest || set.contains(num)) return;
+        set.add(num);
+    }
+}
